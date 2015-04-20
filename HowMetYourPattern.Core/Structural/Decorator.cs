@@ -19,7 +19,7 @@
 
     }
 
-    public class DecoratorA : IComponent
+    public class DecoratorA : IComponent     
     {
         private readonly IComponent _component;
 
