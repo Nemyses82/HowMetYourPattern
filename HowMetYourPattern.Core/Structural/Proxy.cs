@@ -51,10 +51,10 @@ namespace HowMetYourPattern.Core.Structural
         public class MySpaceBook
         {
             // Combination of a virtual and authentication proxy
-            private SpaceBook mySpaceBook;
-            private string password;
-            private string name;
-            private bool loggedIn = false;
+            private SpaceBook _mySpaceBook;
+            private string _password;
+            private string _name;
+            private bool _loggedIn;
 
             private void Register()
             {
@@ -63,59 +63,57 @@ namespace HowMetYourPattern.Core.Structural
                 {
                     Console.WriteLine("All SpaceBook names must be unique");
                     Console.Write("Type in a user name: ");
-                    name = Console.ReadLine();
-                } while (SpaceBook.IsUnique(name));
+                    _name = Console.ReadLine();
+                } while (SpaceBook.IsUnique(_name));
 
                 Console.Write("Type in a password: ");
-                password = Console.ReadLine();
+                _password = Console.ReadLine();
                 Console.WriteLine("Thanks for registering with SpaceBook");
             }
 
-            bool Authenticate()
+            void Authenticate()
             {
-                Console.Write("Welcome " + name + ". Please type in your password: ");
+                Console.Write("Welcome " + _name + ". Please type in your password: ");
                 var supplied = Console.ReadLine();
-                if (supplied == password)
+                if (supplied == _password)
                 {
-                    loggedIn = true;
+                    _loggedIn = true;
                     Console.WriteLine("Logged into SpaceBook");
-                    if (mySpaceBook == null)
-                        mySpaceBook = new SpaceBook(name);
-                    return true;
+                    if (_mySpaceBook == null)
+                        _mySpaceBook = new SpaceBook(_name);
+                    return;
                 }
 
                 Console.WriteLine("Incorrect password");
-
-                return false;
             }
 
             public void Add(string message)
             {
                 Check();
-                if (loggedIn) mySpaceBook.Add(message);
+                if (_loggedIn) _mySpaceBook.Add(message);
             }
 
             public void Add(string friend, string message)
             {
                 Check();
-                if (loggedIn)
-                    mySpaceBook.Add(friend, name + " said: " + message);
+                if (_loggedIn)
+                    _mySpaceBook.Add(friend, _name + " said: " + message);
             }
 
             public void Poke(string who)
             {
                 Check();
-                if (loggedIn)
-                    mySpaceBook.Poke(who, name);
+                if (_loggedIn)
+                    _mySpaceBook.Poke(who, _name);
             }
 
             void Check()
             {
-                if (!loggedIn)
+                if (!_loggedIn)
                 {
-                    if (password == null)
+                    if (_password == null)
                         Register();
-                    if (mySpaceBook == null)
+                    if (_mySpaceBook == null)
                         Authenticate();
                 }
             }
@@ -124,9 +122,9 @@ namespace HowMetYourPattern.Core.Structural
     }
 
     // The Client
-    class ProxyPattern : SpaceBookSystem
+    public class ProxyPattern : SpaceBookSystem
     {
-        private static void Main()
+        public void Main()
         {
             var me = new MySpaceBook();
             me.Add("Hello world");

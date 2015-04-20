@@ -15,7 +15,8 @@ namespace HowMetYourPattern
 
         private static void ExecuteProxy()
         {
-
+            var proxyPattern = new ProxyPattern();
+            proxyPattern.Main();
         }
 
         private static void ExecuteDecorator()
